@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Login from './Login'
 import './App.css';
 
 function App() {
@@ -34,7 +35,9 @@ function App() {
   
   return (
     <div className="App">
-      {loggedIn ? (<p>You are logged in!</p>) : (<p>Not logged in</p>)}
+
+      {loggedIn ? (<p>Hello, {user.firstname}!</p>) : (<Login/>)}
+
     </div>
   )
 }
