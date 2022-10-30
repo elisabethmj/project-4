@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Kits = require("../models/kits");
+const Injections = require("../models/injections");
 
 router.get("/", (req, res) => {
 	const userId = req.session.userid;
@@ -9,23 +9,23 @@ router.get("/", (req, res) => {
 		return res.status(401).send({ message: "Not logged in" });
 	}
 
-	Kits.getAllForUser(userId).then((kitRows) => res.json(kitRows));
+	Injections.getAllForUser(userId).then((injRows) => res.json(injRows));
 });
 
 router.get("/:id", (req, res) => {
-    const kitId = req.params.id;
+    const injId = req.params.id;
 	const userId = req.session.userid;
 
 	if (!userId) {
 		return res.status(401).send({ message: "Not logged in" });
 	}
 
-	Kits.getOneForUser(kitId, userId).then((kitRows) => res.json(kitRows));
+	Injections.getOneForUser(injId, userId).then((injRows) => res.json(injRows));
 });
 
 router.delete("/:id", (req, res) => {
-	const kitId = req.params.id;
-	Kits.deleteOne(kitId)
+	const injId = req.params.id;
+	Injections.deleteOne(injId)
 		.then(() => res.json({ success: true }))
 		.catch((error) => {
 			res.status(500).json({ message: "kit does not exist" });
@@ -33,9 +33,6 @@ router.delete("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    //if you are working on the holidays page,
-    //change this to a hard coded id
-    //i.e. userId = 1;
     const userId = req.session.userid;
 
     if (!userId) {
@@ -43,62 +40,59 @@ router.post("/", (req, res) => {
 	}
 
     //just creates the variables of the following names with their respective values
-    const { user_kit_id, product, order_status, batch_number, expiry, mL_left_bottle } = req.body;
+    const { kit_id, user_inj_id, date_of_inj, dose_given_mL, reaction, notes } = req.body;
 
-    if(user_kit_id === ''
-        || product === '' 
-        || order_status === '' 
-        || batch_number === '' 
-        || expiry === '' 
-        || mL_left_bottle === '') {
+    if(kit_id === ''
+        || user_inj_id === '' 
+        || date_of_inj === '' 
+        || dose_given_mL === '' 
+        || reaction === '' 
+        || notes === '') {
             return res.status(400).json({ message: 'Please fill in the entire form.' });
         }
 
-    //this just stores the req.body contents within the data object
     
     const data = { userId, ...req.body };
 
-    Kits.add(data)
+    Injections.add(data)
     .then(() => res.status(200).json({ success: true }))
     .catch(() => res.status(500).json({ success: false }));
 });
 
 router.put("/:id", (req, res) => {
-
     const userId = req.session.userid;
 
     if (!userId) {
 		return res.status(401).send({ message: "Not logged in!" });
 	}
 
-    //just creates the variables of the following names with their respective values
-    const { user_kit_id, product, order_status, batch_number, expiry, mL_left_bottle } = req.body;
-    const kit_id = req.params.id;
+    const { kit_id, user_inj_id, date_of_inj, dose_given_mL, reaction, notes } = req.body;
+    const injId = req.params.id;
 
-    if(user_kit_id === ''
-        || product === '' 
-        || order_status === '' 
-        || batch_number === '' 
-        || expiry === '' 
-        || mL_left_bottle === '') {
-            return res.status(400).json({ message: 'Please fill in the entire form.' });
-        }
+    if(kit_id === ''
+            || user_inj_id === '' 
+            || date_of_inj === '' 
+            || dose_given_mL === '' 
+            || reaction === '' 
+            || notes === '') {
+                return res.status(400).json({ message: 'Please fill in the entire form.' });
+            }
 
-   
-    const data = { kit_id, ...req.body };
+    
+    const data = { injId, ...req.body };
 
-    Kits.edit(data)
+    Injections.edit(data)
     .then(() => res.status(200).json({ success: true }))
     .catch(() => res.status(500).json({ success: false }));
 });
 
-// these are for testing via Postman
+//these are for testing via Postman
 // router.get("/getAll", (req, res) => {
-// 	Kits.getAll().then((kitRows) => res.json(kitRows));
+// 	Injections.getAll().then((kitRows) => res.json(kitRows));
 // });
 
 // router.get("/getOne/:id", (req, res) => {
-// 	Kits.getOne(req.params.id).then((kitRows) => res.json(kitRows));
+// 	Injections.getOne(req.params.id).then((kitRows) => res.json(kitRows));
 // });
 
 module.exports = router;

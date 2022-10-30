@@ -5,7 +5,7 @@ const Signup = require("../models/signup");
 
 // signup stuff
 router.post("/", (req, res) => {
-	console.log(req.body)
+	// console.log(req.body)
 	let { firstname, surname, email, password, dob, is_staff, date_of_last_review, referral_expiry } = req.body;
 	firstname = firstname.toLowerCase();
 	surname = surname.toLowerCase();
@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
 	Signup.newAcc(firstname, surname, email, hashedPassword, dob, is_staff, date_of_last_review, referral_expiry)
 		.then(() => res.status(200).json({ success: true }))
 		.catch((err) => {
-			console.log(err);
+			// console.log(err);
 			if (err.code === "23505") {
 				res
 					.status(400)
@@ -77,7 +77,7 @@ router.put("/:userId", (req, res) => {
 						}
 					})
 					.catch((err) => {
-						console.log(err);
+						// console.log(err);
 						return res.status(400).json({ message: err });
 					});
 		

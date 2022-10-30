@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-	//console.log("session");
+	console.log("session");
 	const email = req.session.email;
 	const userId = req.session.userid;
 

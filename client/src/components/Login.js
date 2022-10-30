@@ -18,19 +18,19 @@ function Login() {
 
         axios.post("api/session", data)
                 .then(() => {
+                    console.log(data)
                     window.location.href = "/";
                 })
                 .catch((err) => {
-                    console.log(err);
+                    // console.log(err);
                     alert(err.response.data.message);
                 });
     };
 
     return (
-        <div>
+        <div className="container">
             <form onSubmit={formSubmit} method="post">
-                <h1>Immunotherapy tracker</h1>
-                <h2>Login below</h2>
+                <h2>Login</h2>
                 <input type="email" required placeholder="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
                 <input type="password" required placeholder="Password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 <button type="submit">Login</button>

@@ -8,7 +8,7 @@ const Signup = {
 			.then((dbRes) => dbRes);
 	},
 	getInfo: (sessionId) => {
-		const sql = "SELECT firstname,surname, email, dob, is_staff, date_of_last_review, referral_expiry FROM users WHERE id = $1";
+		const sql = "SELECT id, firstname, surname, email, dob, is_staff, date_of_last_review, referral_expiry FROM users WHERE id = $1";
 		return db
 			.query(sql, [sessionId])
 			.then((dbRes) => dbRes.rows)

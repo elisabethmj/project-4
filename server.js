@@ -5,10 +5,12 @@ const fs = require("fs");
 require("dotenv").config();
 const db = require("./database/db");
 
-// const kitsController = require("./controllers/kits");
+const kitsController = require("./controllers/kits");
 const sessionController = require("./controllers/session");
 const { expressSession, pgSession } = require("./session");
 const signupController = require("./controllers/signup");
+const injController = require("./controllers/injections");
+
 
 const port = process.env.PORT || 3001; 
 
@@ -31,9 +33,10 @@ app.use(
 );
 
 
-// app.use("/api/kits", kitsController);
+app.use("/api/kits", kitsController);
 app.use("/api/session", sessionController);
 app.use("/api/signup", signupController);
+app.use("/api/injections", injController);
 
 
 app.get("*", (req, res) => {
