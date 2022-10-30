@@ -35,7 +35,8 @@ export default function NavBar({loggedIn, user}) {
                
                     {loggedIn ? (<ul>
                                     <li><a>Current User: {user.firstname}</a></li>
-                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/">About</a></li>
+                                    <li><a href="/admin">Home</a></li>
                                     <li><a href="/" onClick={logout}>Logout</a></li>
                                 </ul>)  
                                 : 
@@ -50,6 +51,7 @@ export default function NavBar({loggedIn, user}) {
         <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<About />}/>
+                    <Route path="/admin" element={<AdminDisplay loggedIn={loggedIn} user={user}/>}/>
                     <Route path="/login" element={<Login />} />
                     <Route path="*" element={<div className="container"><p>Page not found</p></div>} />
                 </Routes>
