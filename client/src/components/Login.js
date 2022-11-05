@@ -18,7 +18,7 @@ function Login() {
 
         axios.post("api/session", data)
                 .then(() => {
-                    console.log(data)
+                    // console.log(data)
                     window.location.href = "/";
                 })
                 .catch((err) => {

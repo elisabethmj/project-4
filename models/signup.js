@@ -34,6 +34,15 @@ const Signup = {
 				return err;
 			});
 	},
+	searchUsers: (query) => {
+		const sql = "SELECT id, firstname, surname FROM users WHERE firstname ILIKE $1 OR surname ILIKE $1";
+		return db
+			.query(sql, [query])
+			.then((dbRes) => dbRes.rows)
+			.catch((err) => {
+				return err;
+			});
+	} 
 };
 
 module.exports = Signup;

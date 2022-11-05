@@ -32,18 +32,16 @@ router.post("/", (req, res) => {
 		});
 });
 
-router.get("/", (req, res) => {
-	const sessionId = req.session.userid;
-	const email = req.session.email;
-
-	if (!sessionId || !email) {
-		return res.status(401).send({ message: "Not logged in" });
-	}
-
-	Signup.getInfo(sessionId)
-		.then((dbRes) => res.status(200).send(dbRes[0]))
-		.catch((err) => res.status(500).send(err));
+router.get("/:name", (req, res) => {
+	const query = req.params.name;
+	const sqlThing = query + "%";
+	console.log(sqlThing);
+	Signup.searchUsers(sqlThing)
+		.then((dbRes) => {console.log("here:", dbRes); res.status(200).send(dbRes)})
+		.catch((err) => {console.log(err); res.status(500).json(err)});
 });
+
+
 
 router.put("/:userId", (req, res) => {
 	const savedId = req.session.userid;
@@ -81,6 +79,19 @@ router.put("/:userId", (req, res) => {
 						return res.status(400).json({ message: err });
 					});
 		
+});
+
+router.get("/", (req, res) => {
+	const sessionId = req.session.userid;
+	const email = req.session.email;
+
+	if (!sessionId || !email) {
+		return res.status(401).send({ message: "Not logged in" });
+	}
+
+	Signup.getInfo(sessionId)
+		.then((dbRes) => res.status(200).send(dbRes[0]))
+		.catch((err) => res.status(500).send(err));
 });
 
 module.exports = router;

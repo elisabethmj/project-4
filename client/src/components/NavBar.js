@@ -11,7 +11,7 @@ export default function NavBar({loggedIn, user}) {
     
     const [isNavExpanded, setIsNavExpanded] = useState(false);
     // console.log(loggedIn);
-    // console.log(user);
+    console.log("user: ", user);
     return (
     <div>
         <nav className="navigation">
