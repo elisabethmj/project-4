@@ -1,5 +1,5 @@
 import { TextField, InputAdornment, Button } from '@mui/material';
-import { PlaylistAddCheckCircleOutlined, Search } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import { useRef, useState } from 'react';
 import "../styles/Search.css"
 import axios from 'axios';
@@ -23,7 +23,7 @@ function SearchBar({setPatientData}) {
                 };
 
                 setPatientData(data)
-                console.log(response.data)
+                // console.log(response.data)
             })
             .catch((err) => {console.log(err)})
 
@@ -72,19 +72,55 @@ function SearchBar({setPatientData}) {
     )
 }
 
-function displayPatientPage() {
-    console.log("go to patient page")
+function displayPatientPage({data}) {
+    // console.log(data);
+    let patientId = data.id;
+
+    // const [injData, setInjData] = useState([]);
+    // const [kitData, setKitData] = useState([]);
+
+    axios.get(`api/kits/${patientId}`)
+        .then((response) => {
+            const kits = response.data;
+            if (kits.length === 0) {
+                alert("No kits found")
+            };
+            // setKitData(kits);
+            console.log("kits", kits);
+        })
+        .catch((err) => {console.log(err)})
+
+    axios.get(`api/injections/${patientId}`)
+        .then((response) => {
+            const injs = response.data;
+            if (injs.length === 0) {
+                alert("No injs found")
+            };
+            // setInjData(injs);
+            console.log("injs", injs);
+        })
+        .catch((err) => {console.log(err)})
+
+        // return (
+        //     <div>
+        //         <p>{data.firstname}</p>
+        //         <p>{kits[0].product}</p>
+        //         <p>{injs[0].user_inj_id}</p>
+        //     </div>
+        // )
 }
 
 
 function PatientRow({data}) {
-    // const {firstname, surname} = data
+    // const {firstname, surname} = data;
     // data.firstname
     // data.surname
     // data.dob
-    // setPatientData()
+    
     return (
-            <div className="" onClick={displayPatientPage}>{data.firstname} {data.surname}</div>
+            <div className="results-list" onClick={() => {displayPatientPage(data={data})}}>
+             {(data.firstname).toUpperCase()} {(data.surname).toUpperCase()}
+            </div>
       
     )
 }
@@ -95,7 +131,7 @@ function AdminDisplay(props) {
     const [patientData, setPatientData] = useState([]);
     // console.log("hello", patientData.length)
    return (
-    <div>
+    <div className="container">
         <SearchBar setPatientData={setPatientData} />
         {patientData.length > 0 ? (
             patientData.map((patient) => {

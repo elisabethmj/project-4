@@ -2,26 +2,27 @@ const express = require("express");
 const router = express.Router();
 const Injections = require("../models/injections");
 
-router.get("/", (req, res) => {
-	const userId = req.session.userid;
-
-	if (!userId) {
-		return res.status(401).send({ message: "Not logged in" });
-	}
-
-	Injections.getAllForUser(userId).then((injRows) => res.json(injRows));
-});
-
 router.get("/:id", (req, res) => {
-    const injId = req.params.id;
 	const userId = req.session.userid;
+    const patientId = req.params.id;
 
 	if (!userId) {
 		return res.status(401).send({ message: "Not logged in" });
 	}
 
-	Injections.getOneForUser(injId, userId).then((injRows) => res.json(injRows));
+	Injections.getAllForUser(patientId).then((injRows) => res.json(injRows));
 });
+
+// router.get("/:id", (req, res) => {
+//     const injId = req.params.id;
+// 	const userId = req.session.userid;
+
+// 	if (!userId) {
+// 		return res.status(401).send({ message: "Not logged in" });
+// 	}
+
+// 	Injections.getOneForUser(injId, userId).then((injRows) => res.json(injRows));
+// });
 
 router.delete("/:id", (req, res) => {
 	const injId = req.params.id;

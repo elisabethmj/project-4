@@ -2,26 +2,27 @@ const express = require("express");
 const router = express.Router();
 const Kits = require("../models/kits");
 
-router.get("/", (req, res) => {
-	const userId = req.session.userid;
-
-	if (!userId) {
-		return res.status(401).send({ message: "Not logged in" });
-	}
-
-	Kits.getAllForUser(userId).then((kitRows) => res.json(kitRows));
-});
-
 router.get("/:id", (req, res) => {
-    const kitId = req.params.id;
 	const userId = req.session.userid;
+    const patientId = req.params.id;
 
 	if (!userId) {
 		return res.status(401).send({ message: "Not logged in" });
 	}
 
-	Kits.getOneForUser(kitId, userId).then((kitRows) => res.json(kitRows));
+	Kits.getAllForUser(patientId).then((kitRows) => res.json(kitRows));
 });
+
+// router.get("/:id", (req, res) => {
+//     const kitId = req.params.id;
+// 	const userId = req.session.userid;
+
+// 	if (!userId) {
+// 		return res.status(401).send({ message: "Not logged in" });
+// 	}
+
+// 	Kits.getOneForUser(kitId, userId).then((kitRows) => res.json(kitRows));
+// });
 
 router.delete("/:id", (req, res) => {
 	const kitId = req.params.id;

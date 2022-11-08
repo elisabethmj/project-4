@@ -11,7 +11,7 @@ export default function NavBar({loggedIn, user}) {
     
     const [isNavExpanded, setIsNavExpanded] = useState(false);
     // console.log(loggedIn);
-    console.log("user: ", user);
+    // console.log("user: ", user);
     return (
     <div>
         <nav className="navigation">
@@ -34,7 +34,7 @@ export default function NavBar({loggedIn, user}) {
             <div className={isNavExpanded ? "navigation-menu expanded" : "navigation-menu"}>
                
                     {loggedIn ? (<ul>
-                                    <li><a>Current User: {user.firstname}</a></li>
+                                    <li>Current User: {user.firstname}</li>
                                     <li><a href="/">About</a></li>
                                     <li><a href="/admin">Home</a></li>
                                     <li><a href="/" onClick={logout}>Logout</a></li>

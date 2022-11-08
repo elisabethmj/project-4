@@ -35,7 +35,7 @@ const Signup = {
 			});
 	},
 	searchUsers: (query) => {
-		const sql = "SELECT id, firstname, surname FROM users WHERE firstname ILIKE $1 OR surname ILIKE $1";
+		const sql = "SELECT id, firstname, surname, email, dob, is_staff, date_of_last_review, referral_expiry FROM users WHERE firstname ILIKE $1 OR surname ILIKE $1";
 		return db
 			.query(sql, [query])
 			.then((dbRes) => dbRes.rows)

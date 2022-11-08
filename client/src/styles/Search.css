@@ -1,3 +1,13 @@
 .search-bar {
     margin-top: 2rem;
 }
+
+.results-list {
+    margin-bottom: 1rem;
+    border-bottom: 0.1rem solid grey;
+    padding: 1rem;
+}
+
+.results-list:hover {
+   background-color: rgb(221, 221, 221);
+}
