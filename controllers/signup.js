@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { generateHash } = require("../utils/hash");
-const Signup = require("../models/signup");
+const Users = require("../models/signup");
 
 // signup stuff
 router.post("/", (req, res) => {
@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
 
 	const hashedPassword = generateHash(password);
 
-	Signup.newAcc(firstname, surname, email, hashedPassword, dob, is_staff, date_of_last_review, referral_expiry)
+	Users.newAcc(firstname, surname, email, hashedPassword, dob, is_staff, date_of_last_review, referral_expiry)
 		.then(() => res.status(200).json({ success: true }))
 		.catch((err) => {
 			// console.log(err);
@@ -35,10 +35,10 @@ router.post("/", (req, res) => {
 router.get("/:name", (req, res) => {
 	const query = req.params.name;
 	const sqlThing = query + "%";
-	console.log(sqlThing);
-	Signup.searchUsers(sqlThing)
-		.then((dbRes) => {console.log("here:", dbRes); res.status(200).send(dbRes)})
-		.catch((err) => {console.log(err); res.status(500).json(err)});
+	// console.log(sqlThing);
+	Users.searchUsers(sqlThing)
+		.then((dbRes) => {res.status(200).send(dbRes)})
+		.catch((err) => {res.status(500).json(err)});
 });
 
 
@@ -59,11 +59,11 @@ router.put("/:userId", (req, res) => {
 		return res.status(401).json({});
 	}
 
-	Signup.checkEmail(email)
+	Users.checkEmail(email)
 		.then((dbRes) => {
 			// check if the email exists in the table or if it's matching the current one then continue
 			if (dbRes.length == 0 || dbRes[0].email === email) {
-			    Signup.saveInfo(pathId, firstname, surname, email, dob, is_staff, date_of_last_review, referral_expiry)
+			    Users.saveInfo(pathId, firstname, surname, email, dob, is_staff, date_of_last_review, referral_expiry)
 					.then((dbRes) => {
 							        res
 								        .status(200)
@@ -89,7 +89,7 @@ router.get("/", (req, res) => {
 		return res.status(401).send({ message: "Not logged in" });
 	}
 
-	Signup.getInfo(sessionId)
+	Users.getInfo(sessionId)
 		.then((dbRes) => res.status(200).send(dbRes[0]))
 		.catch((err) => res.status(500).send(err));
 });

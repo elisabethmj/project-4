@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import './styles/App.css';
 
 import NavBar from "./components/NavBar";
+import Login from "./components/Login";
+import About from "./components/About";
+import SearchPatients from "./components/SearchPatients";
 
 
 function App() {
@@ -29,7 +33,16 @@ function App() {
 
     return (
         <div>
-          <NavBar user={user} loggedIn={loggedIn} />
+          <NavBar user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+          <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<About />}/>
+                    {loggedIn && <Route path="/admin" element={<SearchPatients />} />}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="*" element={<div className="container"><p>Page not found</p></div>} />
+                </Routes>
+          </BrowserRouter>
+
         </div>
   )
 }

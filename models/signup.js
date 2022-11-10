@@ -1,6 +1,6 @@
 const db = require("../database/db.js");
 
-const Signup = {
+const Users = {
 	newAcc: (firstname, surname, email, hashedPassword, dob, is_staff, date_of_last_review, referral_expiry) => {
 		const sql = `INSERT INTO users(firstname, surname, email, password, dob, is_staff, date_of_last_review, referral_expiry) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`;
 		return db
@@ -35,7 +35,7 @@ const Signup = {
 			});
 	},
 	searchUsers: (query) => {
-		const sql = "SELECT id, firstname, surname, email, dob, is_staff, date_of_last_review, referral_expiry FROM users WHERE firstname ILIKE $1 OR surname ILIKE $1";
+		const sql = "SELECT id, firstname, surname, email, dob, is_staff, date_of_last_review, referral_expiry FROM users WHERE firstname ILIKE $1 OR surname ILIKE $1 AND is_staff=false";
 		return db
 			.query(sql, [query])
 			.then((dbRes) => dbRes.rows)
@@ -45,4 +45,4 @@ const Signup = {
 	} 
 };
 
-module.exports = Signup;
+module.exports = Users;

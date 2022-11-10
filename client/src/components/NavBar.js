@@ -1,22 +1,29 @@
-import logout from "./Logout";
-import Login from "./Login";
-import About from "./About";
-import AdminDisplay from "./AdminDisplay";
+
 import "../styles/NavBar.css"
-
+import axios from "axios";
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function NavBar({loggedIn, user}) {
+
+export default function NavBar({setLoggedIn, loggedIn, user}) {
     
     const [isNavExpanded, setIsNavExpanded] = useState(false);
     // console.log(loggedIn);
     // console.log("user: ", user);
+    function logout() {
+        axios.delete("api/session")
+                .then((response) => {
+                    console.log(response);
+                    setLoggedIn(false);
+                }).catch((err) => {
+                    // console.log(err)
+                    alert("log out unsuccessful")
+                });
+     };
+
     return (
-    <div>
-        <nav className="navigation">
+    <nav className="navigation" data-testid="navBar">
             <a href="/" className="app-name">myTherapy</a>
-            <button className="hamburger" onClick={() => {setIsNavExpanded(!isNavExpanded)}}>
+            <button className="hamburger" data-testid="hamburger" onClick={() => {setIsNavExpanded(!isNavExpanded)}}>
                 {/* icon from heroicons.com */}
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -34,28 +41,19 @@ export default function NavBar({loggedIn, user}) {
             <div className={isNavExpanded ? "navigation-menu expanded" : "navigation-menu"}>
                
                     {loggedIn ? (<ul>
-                                    <li>Current User: {user.firstname}</li>
-                                    <li><a href="/">About</a></li>
-                                    <li><a href="/admin">Home</a></li>
-                                    <li><a href="/" onClick={logout}>Logout</a></li>
+                                    <li>Current User: <span data-testid="username">{user.firstname}</span></li>
+                                    <li data-testid="about"><a href="/">About</a></li>
+                                    <li data-testid="home"><a href="/admin">Search Patients</a></li>
+                                    <li data-testid="logout"><a href="/" onClick={() => logout()}>Logout</a></li>
                                 </ul>)  
                                 : 
                                 (<ul>
-                                    <li><a href="/">About</a></li>
-                                    <li><a href="/login">Login</a></li>
+                                    <li data-testid="about"><a href="/">About</a></li>
+                                    <li data-testid="login"><a href="/login">Login</a></li>
                                 </ul>)
                     }
 
                 </div>
         </nav>
-        <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<About />}/>
-                    <Route path="/admin" element={<AdminDisplay loggedIn={loggedIn} user={user}/>}/>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="*" element={<div className="container"><p>Page not found</p></div>} />
-                </Routes>
-        </BrowserRouter>
-        </div>
     )
 }
