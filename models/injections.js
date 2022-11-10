@@ -13,9 +13,9 @@ const Injections = {
         const sql = `SELECT * FROM injections WHERE id = $1 AND user_id = $2`;
         return db.query(sql, [injectionId, userId]).then((dbRes) => dbRes.rows); 
     },
-    getAllForUser: (userId) => {
+    getAllForUser: (patientId) => {
         const sql = `SELECT * FROM injections WHERE user_id = $1`;
-        return db.query(sql, [userId]).then((dbRes) => dbRes.rows); 
+        return db.query(sql, [patientId]).then((dbRes) => dbRes.rows); 
     },
     deleteOne: (injectionId) => {
         const sql = `DELETE FROM injections WHERE id = $1`;
