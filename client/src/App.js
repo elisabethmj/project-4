@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import Login from "./components/Login";
 import About from "./components/About";
 import SearchPatients from "./components/SearchPatients";
+import AddPatient from './components/AddPatient'
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/" element={<About />}/>
                     {loggedIn && <Route path="/admin" element={<SearchPatients />} />}
                     <Route path="/login" element={<Login />} />
+                    {loggedIn && <Route path="/new" element={<AddPatient />} />}
                     <Route path="*" element={<div className="container"><p>Page not found</p></div>} />
                 </Routes>
           </BrowserRouter>

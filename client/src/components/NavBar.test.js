@@ -40,13 +40,13 @@ test("test that correct links displayed when logged in", () => {
     
     render(<NavBar loggedIn={true} user={user}/>)
     const logout = screen.getByTestId("logout")
-    const about = screen.getByTestId("about")
+  
     const home = screen.getByTestId("home")
     const username = screen.getByTestId("username")
     
     expect(logout).toBeInTheDocument()
     expect(home).toBeInTheDocument()
-    expect(about).toBeInTheDocument()
+ 
     expect(username).toBeInTheDocument()
 
 })

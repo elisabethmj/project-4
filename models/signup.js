@@ -42,7 +42,11 @@ const Users = {
 			.catch((err) => {
 				return err;
 			});
-	} 
+	},
+	deleteOne: (userId) => {
+        const sql = `DELETE FROM users WHERE id = $1`;
+        return db.query(sql, [userId]).then((dbRes) => dbRes.rows);
+    },
 };
 
 module.exports = Users;

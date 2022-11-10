@@ -5,14 +5,14 @@ const Users = require("../models/signup");
 
 // signup stuff
 router.post("/", (req, res) => {
-	// console.log(req.body)
+	// console.log(req.body);
 	let { firstname, surname, email, password, dob, is_staff, date_of_last_review, referral_expiry } = req.body;
 	firstname = firstname.toLowerCase();
 	surname = surname.toLowerCase();
 	email = email.toLowerCase();
     // add for dob, is_staff, review date & expiry??
 
-	if (!firstname || !surname || !email || !password || !dob || !is_staff) {
+	if (!firstname || !surname || !email || !password || !dob ) {
 		return res.status(400).json({ message: "one of the fields is empty" });
 	}
 
@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
 	Users.newAcc(firstname, surname, email, hashedPassword, dob, is_staff, date_of_last_review, referral_expiry)
 		.then(() => res.status(200).json({ success: true }))
 		.catch((err) => {
-			// console.log(err);
+			// console.log("backend err", err);
 			if (err.code === "23505") {
 				res
 					.status(400)
@@ -79,6 +79,15 @@ router.put("/:userId", (req, res) => {
 						return res.status(400).json({ message: err });
 					});
 		
+});
+
+router.delete("/:id", (req, res) => {
+	const userId = req.params.id;
+	Users.deleteOne(userId)
+		.then(() => res.json({ success: true }))
+		.catch((error) => {
+			res.status(500).json({ message: "user does not exist" });
+		});
 });
 
 router.get("/", (req, res) => {

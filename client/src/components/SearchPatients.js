@@ -4,6 +4,7 @@ import moment from 'moment';
 import InjectionRow from './InjectionRow'
 import ResultRow from './ResultRow'
 import KitRow from './KitRow';
+import axios from 'axios';
 
 
 
@@ -11,6 +12,24 @@ import KitRow from './KitRow';
 
 function SearchPatients() {
     
+    function deletePatient(id) {
+        console.log(id)
+        axios.delete(`api/signup/${id}`)
+                .then((response) => {
+                    console.log(response);
+                    window.location.href = "/admin"
+                }).catch((err) => {
+                    console.log(err)
+                    alert("delete unsuccessful")
+                });
+        
+    }
+
+ 
+  function redirect() { 
+    window.location.href = "/new"
+   
+  }
 
     const [patientData, setPatientData] = useState([])
     const [patientSearchResults, setPatientSearchResults] = useState([]);
@@ -29,6 +48,7 @@ function SearchPatients() {
                 <h3>Referral expires: {moment(patientData.referral_expiry).format("DD/MM/YYYY")}</h3>
                 <button>Update Patient Details</button>
                 <button>Add injection</button>
+                <button onClick={() => {deletePatient(patientData.id)}}>Delete patient</button>
                 {immunoData.map((inj) => {
                     return <InjectionRow key={inj.id} injData={inj}/>
                 })}
@@ -46,7 +66,7 @@ function SearchPatients() {
                                         }) 
                         )
                 }
-                <button>Add new patient</button>
+                <button onClick={redirect}>Add new patient</button>
             </>
         )
         }

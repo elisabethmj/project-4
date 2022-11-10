@@ -1,17 +1,16 @@
 import axios from 'axios';
 
 export default function ResultRow({data, setDisplayPatientImmunoData, setImmunoData, setPatientData, setKitData}) {
-    function handleClick() {
+
+    function grabAndSetData() {
         setPatientData(data);
         let patientId = data.id;
+
         axios.get(`api/kits/${patientId}`)
             .then((response) => {
                 const kits = response.data;
-                if (kits.length === 0) {
-                    alert("No kits found")
-                };
-            
-                console.log("kits", kits);
+                
+                // console.log("kits", kits);
                 setKitData(kits);
             })
             .catch((err) => {console.log(err)})
@@ -19,9 +18,7 @@ export default function ResultRow({data, setDisplayPatientImmunoData, setImmunoD
         axios.get(`api/injections/${patientId}`)
             .then((response) => {
                 const injs = response.data;
-                if (injs.length === 0) {
-                    alert("No injs found")
-                };
+               
             
                 // console.log("injs", injs);
                 setImmunoData(injs);
@@ -32,7 +29,7 @@ export default function ResultRow({data, setDisplayPatientImmunoData, setImmunoD
     }
 
     return (
-        <div className="results-list" onClick={() => {handleClick()}}>
+        <div className="results-list" onClick={() => {grabAndSetData()}}>
              {data.firstname} {(data.surname).toUpperCase()}
         </div>
         )

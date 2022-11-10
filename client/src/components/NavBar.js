@@ -42,7 +42,6 @@ export default function NavBar({setLoggedIn, loggedIn, user}) {
                
                     {loggedIn ? (<ul>
                                     <li>Current User: <span data-testid="username">{user.firstname}</span></li>
-                                    <li data-testid="about"><a href="/">About</a></li>
                                     <li data-testid="home"><a href="/admin">Search Patients</a></li>
                                     <li data-testid="logout"><a href="/" onClick={() => logout()}>Logout</a></li>
                                 </ul>)  
