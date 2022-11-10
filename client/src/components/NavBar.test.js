@@ -6,11 +6,7 @@ import axios from "axios";
 
 let mockAxios = new MockAdapter(axios)
 
-// 1. test if navbar renders correctly
-// 2. test that correct links displayed when logged out
-// 3. test that correct links displayed when logged in 
-// 4. test logout works if logged in (session being deleted?)
-// 5. test that user firstname displaying when logged in
+
 
 const user = {
     firstname: "Elise",
